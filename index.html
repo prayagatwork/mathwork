@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATLAB Simulink</title>
+    <style>
+        *{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 22px;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #F0F0F0;
+            /* Light gray similar to MATLAB */
+        }
+
+        #header {
+            background-color: #0072bd;
+            /* MATLAB Blue */
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #navbar {
+            background-color: #003366;
+            /* Darker shade of MATLAB Blue */
+            color: white;
+            padding: 5px;
+        }
+
+        #navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        #navbar li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        #navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+
+        #navbar a:hover {
+            background-color: #0051a3;
+            /* Lighter shade of MATLAB Blue */
+            border-radius: 5px;
+        }
+
+        #content {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #0072bd;
+            /* MATLAB Blue */
+            border-radius: 5px;
+        }
+
+        .section-header {
+            background-color: #0072bd;
+            /* MATLAB Blue */
+            color: white;
+            padding: 10px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .section-content {
+            padding: 10px;
+        }
+
+        #footer {
+            background-color: #0072bd;
+            /* MATLAB Blue */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Adjustments for MATLAB logo */
+        #header img {
+            width: 80px;
+            /* Adjust the width as needed */
+            margin-right: 10px;
+        }
+
+        #header img {
+            width: 200px;
+            /* Adjust the width as needed */
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="header">
+        <img src="./photo.png" alt="MATLAB Logo"> <!-- Add MATLAB logo here -->
+        <h1 style="display: inline;">MATLAB Simulink</h1>
+    </div>
+
+    <div id="navbar">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <div class="section">
+            <div class="section-header">Experiment 8 </div>
+            <div class="section-content">
+                <p>
+                <pre><code class="matlab">
+                    
+
+                    MATLAB Code:
+                    Clear workspace, clear MATLAB console, Close all figures.
+                    clearvars;clc;close all;
+                    (a) Write a function named 'compute_dft' to compute DTFT of a given discrete-time signal for 
+                    x = [1, 2, 3, 4, 5];
+                    [X, w] = compute_dtft(x)
+                    (b) Use this function to compute DTFT of the following signals and obtain the amplitude and phase response plots.
+                        i) Unit sample sequence
+                            
+                    n = 0:50;
+                    a = n == 0;
+                    
+                    % Compute the Discrete Fourier Transform (DFT) of the impulse sequence 'a'
+                    [X, w] = compute_dtft(a);
+                    % Calculate Magnitude and Phase of the DFT
+                    Magnitude = abs(X);
+                    Phase = angle(X);
+                    % Plotting
+                    figure(1)
+                    % Subplot 1: Impulse sequence
+                    subplot(2,1,1);
+                    stem(n, a, "filled"); 
+                    grid on;
+                    grid minor;
+                    title("Impulse Sequence");
+                    xlabel("n \rightarrow");
+                    ylabel("x[n]");
+                    xticks(0:5:30);
+                    yticks(0:0.2:1)
+                    
+                    % Subplot 2: Magnitude Spectrum
+                    subplot(2,2,3);
+                    plot(w, Magnitude);
+                    grid on;
+                    grid minor;
+                    xlabel("\Omega rad/s");
+                    ylabel("|X(\Omega)|");
+                    xlim([-pi pi]);
+                    xticks(-pi:pi/4:pi);
+                    xticklabels({'-\pi','-\pi/4','-3\pi/4','-\pi/2','0','\pi/4','\pi/2','3\pi/4','\pi'}); % Set x-axis tick labels
+                    
+                    % Subplot 3: Phase Spectrum
+                    subplot(2,2,4);
+                    plot(w, Phase); % Plot Phase Spectrum
+                    grid on;
+                    grid minor;
+                    xlabel("\Omega rad/s");
+                    <!-- ylabel("<X(\Omega)"); -->
+                    xticks(-pi:pi/4:pi); 
+                    yticks(-4:4); 
+                    xticklabels({'-\pi','-\pi/4','-3\pi/4','-\pi/2','0','\pi/4','\pi/2','3\pi/4','\pi'}); % Set x-axis tick labels
+                    yticks(-4:2:4) 
+                    xlim([-pi pi]);
+                    ii) Sinusoidal sequence, 
+                    n = 0:50;
+                    f = 0.1;
+                    
+                    % Generate the sinusoidal sequence
+                    d = sin(2*pi*f*n);
+                    
+                    % Compute the Discrete Fourier Transform (DFT) of the sinusoidal sequence
+                    [X, w] = compute_dtft(d);
+                    
+                    % Calculate Magnitude and Phase of the DFT
+                    Mag = abs(X);
+                    Phase = angle(X);
+                    figure(4)
+                    
+                    % Subplot 1: Sinusoidal sequence
+                    subplot(2,1,1);
+                    stem(n, d, "filled");
+                    grid on;
+                    grid minor;
+                    title("Sinusoidal Sequence: sin(\pi n/8)");
+                    xlabel("n \rightarrow");
+                    ylabel("x[n]");
+                    xticks(0:5:45);
+                    yticks(-1:0.5:1);
+                    
+                    % Subplot 2: Magnitude Spectrum
+                    subplot(2,2,3);
+                    plot(w, Mag);
+                    grid on;
+                    grid minor;
+                    xlabel("\Omega rad/s");
+                    ylabel("|X(\Omega)|");
+                    xticklabels({'-\pi','-\pi/4','-3\pi/4','-\pi/2','0','\pi/4','\pi/2','3\pi/4','\pi'});
+                    yticks(0:5:25);
+                    xlim([-pi pi]);
+                    xticks(-pi:pi/4:pi);
+                    
+                    % Subplot 3: Phase Spectrum
+                    subplot(2,2,4);
+                    plot(w, Phase);
+                    grid on;
+                    grid minor;
+                    xlabel("\Omega rad/s");
+                    xticks(-pi:pi/4:pi);
+                    <!-- ylabel("<X(\Omega)"); -->
+                    xticklabels({'-\pi','-\pi/4','-3\pi/4','-\pi/2','0','\pi/4','\pi/2','3\pi/4','\pi'});
+                    yticks(-4:2:4);
+                    xlim([-pi pi]);
+                    (iii) Rectangular sequence 
+                    n = 0:30;
+                    b = n <= 10;
+                    
+                    % Compute the Discrete Fourier Transform (DFT) of the rectangular sequence 'b'
+                    [X2, w2] = compute_dtft(b); 
+                    figure(2)
+                    
+                    % Subplot 1: Rectangular sequence
+                    subplot(2,1,1);
+                    stem(n, b, 'filled', 'LineWidth', 1); 
+                    grid on;
+                    grid minor;
+                    xlim([0, 20]); % Set x-axis limits from 0 to 20
+                    xlabel('n \rightarrow');
+                    ylabel('x[n]');
+                    title('Rectangular sequence');
+                    
+                    % Subplot 2: Magnitude Spectrum
+                    subplot(2,2,3);
+                    plot(w2, abs(X2)); % Plot Magnitude Spectrum
+                    xlim([-pi, pi]); 
+                    ylim([0, 15]); 
+                    xlabel('\Omega rad/s');
+                    ylabel('|X(\Omega)|');
+                    grid on;
+                    grid minor;
+                    xticks(-pi:pi/4:pi); % Set x-axis ticks from -pi to pi in steps of pi/4
+                    xticklabels({'-\pi','-\pi/4','-3\pi/4','-\pi/2','0','\pi/4','\pi/2','3\pi/4','\pi'}); % Set x-axis tick labels
+                    
+                    % Subplot 3: Phase Spectrum
+                    subplot(2,2,4);
+                    plot(w2, angle(X2)); 
+                    xlim([-pi, pi]); 
+                    ylim([-4, 4]); 
+                    xticks(-pi:pi/4:pi);
+                    xticklabels({'-\pi','-\pi/4','-3\pi/4','-\pi/2','0','\pi/4','\pi/2','3\pi/4','\pi'}); % Set x-axis tick labels
+                    xlabel('\Omega rad/s');
+                    ylabel('\angle X(\Omega)');
+                    grid on;
+                    grid minor;
+                    iv) Exponential sequence 
+                    n = 0:50;
+                    c = 0.9 .^ n;
+                    
+                    % Compute the Discrete Fourier Transform (DFT) of the exponential sequence 'c'
+                    [X, w] = compute_dtft(c);
+                    
+                    % Calculate Magnitude and Phase of the DFT
+                    Mag = abs(X);
+                    Phase = angle(X);
+                    
+                    % Plotting
+                    figure(3)
+                    
+                    % Subplot 1: Exponential sequence
+                    subplot(2,1,1);
+                    stem(n, c, "filled");
+                    grid on;
+                    grid minor;
+                    title("Exponential Sequence: (0.9)^n u[n]");
+                    xlabel("n \rightarrow");
+                    ylabel("x[n]");
+                    xticks(0:5:30);
+                    yticks(0:0.2:1);
+                    
+                    % Subplot 2: Magnitude Spectrum
+                    subplot(2,2,3);
+                    plot(w, Mag);
+                    grid on;
+                    grid minor;
+                    xlabel("\Omega rad/s");
+                    ylabel("|X(\Omega)|");
+                    xticklabels({'-\pi','-\pi/4','-3\pi/4','-\pi/2','0','\pi/4','\pi/2','3\pi/4','\pi'});
+                    yticks(0:2:10);
+                    xlim([-pi pi]);
+                    xticks(-pi:pi/4:pi);
+                    
+                    % Subplot 3: Phase Spectrum
+                    subplot(2,2,4);
+                    plot(w, Phase);
+                    grid on;
+                    grid minor;
+                    xlabel("\Omega rad/s");
+                    xticks(-pi:pi/4:pi);
+                    <!-- ylabel("<X(\Omega)"); -->
+                    xticklabels({'-\pi','-\pi/4','-3\pi/4','-\pi/2','0','\pi/4','\pi/2','3\pi/4','\pi'});
+                    yticks(-4:2:4);
+                    xlim([-pi pi]);
+                    c) Utilize the 'compute_dtft' function to calculate the discrete-time Fourier transform (DTFT) of the audio signals from Experiment-4. Generate frequency magnitude plots for each of the signals to visually represent their frequency characteristics.
+                        i) Original signal
+                    figure(5);
+                    set(gcs,'position','[100,100,800,800]');
+                    subplot(4, 1, 1);
+                    [y_orig, Fs_orig] = audioread('orig.wav');
+                    [X_orig, w_orig] = compute_dtft(y_orig);
+                    plotmag(w_orig, X_orig);
+                    title('Original');
+                        ii) Tone Signal
+                    subplot(4, 1, 2);
+                    [y_tone, Fs_tone] = audioread('tone.wav');
+                    [X_tone, w_tone] = compute_dtft(y_tone);
+                    plotmag(w_tone, X_tone);
+                    title('Tone');
+                        iii) Mixed signal
+                    subplot(4, 1, 3);
+                    [y_mixed, Fs_mixed] = audioread('mixed.wav');
+                    [X_mixed, w_mixed] = compute_dtft(y_mixed);
+                    plotmag(w_mixed, X_mixed);
+                    title('Mixed');
+                        iv) Filtered signal
+                    subplot(4, 1, 4);
+                    [y_filtered, Fs_filtered] = audioread('filtered.wav');
+                    [X_filtered, w_filtered] = compute_dtft(y_filtered);
+                    plotmag(w_filtered, X_filtered);
+                    title('Original');
+                    MATLAB Functions: 
+                    i) Write a function named ‘compute_dft’ to compute DTFT of a given discrete-time signal for 
+                    function [X,w]=compute_dtft(x)
+                     reshape(x,1,[]);
+                     w=linspace(-pi,pi,500);
+                     A=length(x);
+                     B=length(w);
+                     X=zeros(1,B);
+                     for k=1:B
+                        for n=1:A
+                            X(k)=X(k)+x(n)*exp(-1i*w(k)*(n-1));
+                        end
+                     end
+                    end
+                    ii) MATLAB function named plotmag to plot the frequency magnitude response of DTFT.
+                    function plotmag(w, X)
+                        plot(w, abs(X),'b');
+                        set(gca, 'FontSize', 7);
+                        xlabel('Frequency (rad/sample)');
+                        ylabel('Magnitude');
+                        grid minor;
+                        xlim([-pi, pi]);
+                        xticks(-pi:pi/4:pi);
+                        xticklabels({'-\pi', '-3\pi/4', '-\pi/2', '-\pi/4', '0', '\pi/4', '\pi/2', '3\pi/4', '\pi'});
+                    end
+
+</p>   </code></pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">Experiment 9</div>
+            <div class="section-content">
+                <p>
+                <pre><code class="matlab">
+                    % Clear workspace, clear MATLAB console, Close all figures.
+                    clearvars; clc; close all;
+                    
+                    % a) Computation Efficiency of DFT and FFT
+                    % (i) Write a MATLAB function compute_dft to compute the DFT of any finite length sequence using the DFT equation.
+                    % (ii) Generate 8 samples of the sequence , 0, where is the unit step function.
+                    n = 0:7;
+                    x = (0.95).^n .* ones(size(n));
+                    disp(x);
+                    
+                    % (iii) Utilize the compute_dft function to calculate the Discrete Fourier Transform (DFT) of the sequence with N = 4096.
+                    N = 4096;
+                    f = (0:N-1) / N;
+                    magnitude = abs(compdft(x, N));
+                    subplot(2,1,1)
+                    plot(f, magnitude)
+                    xlabel('Frequency (Hz)')
+                    ylabel('Magnitude')
+                    title('plot using compute\_dft function')
+                    
+                    % (iv) Utilize MATLAB's built-in fft function to compute the Discrete Fourier Transform (DFT) of the same sequence with N = 4096.
+                    N = 4096;
+                    x_pad = [x zeros(1, N-length(x))]; 
+                    tic; 
+                    X_fft = fft(x_pad); 
+                    time_taken = toc; 
+                    freq_fft = (0:N-1) / N;
+                    magnitude_fft = abs(X_fft);
+                    subplot(2,1,2)
+                    plot(freq_fft, magnitude_fft)
+                    title('plot from MATLAB fft function')
+                    xlabel('Frequency (Hz)')
+                    ylabel('Magnitude')
+                    
+                    % (v) Ensure that both subplots precisely match. Compare the time taken for direct DFT computation with the time taken for FFT-based computation.
+                    
+                    % DFT Cal.
+                    N = 4096;
+                    x_pad = [x zeros(1, N-length(x))]; % zero padding
+                    tic;
+                    X_dft = compdft(x, N);
+                    time_dft = toc; 
+                    freq_dft = (0:N-1) / N;
+                    magnitude_dft = abs(X_dft);
+                    subplot(2,1,1)
+                    plot(freq_dft, magnitude_dft)
+                    xlabel('Frequency (Hz)')
+                    ylabel('Magnitude')
+                    title('using compute\_dft function')
+                    
+                    % FFT Cal.
+                    tic; 
+                    X_fft = fft(x_pad); 
+                    time_fft = toc; 
+                    f_fft = (0:N-1) / N;
+                    mag_fft = abs(X_fft);
+                    subplot(2,1,2)
+                    plot(f_fft, mag_fft)
+                    xlabel('Freqency')
+                    ylabel('Magnitude')
+                    title('Using built-in fft function')
+                    
+                    % Time Taken
+                    disp(['Time for DFT computation: ' num2str(time_dft)])
+                    disp(['Time for FFT computation: ' num2str(time_fft) ])
+                    
+                    % (b) Circular Convolution 
+                    % (i) Generate two sequences  = {3, 0, 1, 5} and  = {4, 2, 0, 6} in MATLAB.
+                    a1 = [3, 0, 1, 5];
+                    a2 = [4, 2, 0, 6];
+                    
+                    % (ii) Manually compute the circular convolution of  and . 
+                    
+                    % (iii) Now, use MATLAB's cconv functions to perform circular convolution of  and .
+                    result = cconv(a1, a2, length(a1));
+                    disp('Circular Convolution Result:');
+                    disp(result);
+                    
+                    % (iv) Finally, use the MATLAB’s fft and ifft commands to compute the circular convolution using the frequency domain. 
+                    N = length(a1);
+                    fft_a1 = fft(a1, N);
+                    fft_a2 = fft(a2, N);
+                    
+                    % mul. ele-ele wise
+                    fft_result = fft_a1 .* fft_a2;
+                    result = ifft(fft_result);
+                    disp('Circular Convolution using FFT and iFFT:');
+                    disp(result);
+                    
+                    % (v) Ensure that the results obtained in steps i, ii and iii matches.
+                    
+                    % my function
+                    function [X] = compdft(x, N)
+                        x = reshape(x, 1, []);
+                        x = [x zeros(1, N-length(x))];
+                        X = zeros(1, N);
+                        for i = 0:N-1
+                            for j = 0:N-1
+                                X(i+1) = X(i+1) + x(j+1) * exp(-1j*2*pi*i*j/N);
+                            end
+                        end
+                    end
+                    
+                    </code></pre>
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">Experiment 10</div>
+            <div class="section-content">
+                <p>
+                <pre><code class="matlab">
+                    % Define parameters
+                    fm = 100;
+                    fs = 4 * fm;
+                    N_values = [21, 51, 101, 501];
+                    
+                    % Plot Gibbs Phenomenon for different N values
+                    figure('PaperPosition', [0 0 10 8.5]);
+                    for i = 1:length(N_values)
+                        N = N_values(i);
+                        [h, n, H, f] = idealflr(N, fm, fs);
+                        
+                        subplot(4, 2, 2*i - 1)
+                        stem(n, h, 'MarkerSize', 2, 'filled');
+                        title(['N = ', num2str(N)]);
+                        ylabel('h[n]');
+                        grid on; grid minor;
+                        
+                        subplot(4, 2, 2*i)
+                        plot(f, abs(H));
+                        title(['N = ', num2str(N)]);
+                        ylabel('H[f]');
+                        grid on; grid minor;
+                    end
+                    
+                    % Description of windowing functions
+                    rectangularWindow = ones(1, N);
+                    bartlettWindow = 2 / (N - 1) * ((N - 1) / 2 - abs(n - (N - 1) / 2));
+                    blackmanWindow = 0.42 - 0.5 * cos(2 * pi * n / (N - 1)) + 0.08 * cos(4 * pi * n / (N - 1));
+                    hanningWindow = 0.5 * (1 - cos(2 * pi * n / (N - 1)));
+                    hammingWindow = 0.54 - 0.46 * cos(2 * pi * n / (N - 1));
+                    
+                    % Demonstrate windowing functions
+                    figure('Name', 'Windowing Functions');
+                    subplot(2, 3, 1); plot(n, rectangularWindow); title('Rectangular Window');
+                    subplot(2, 3, 2); plot(n, bartlettWindow); title('Bartlett Window');
+                    subplot(2, 3, 3); plot(n, blackmanWindow); title('Blackman Window');
+                    subplot(2, 3, 4); plot(n, hanningWindow); title('Hann (Hanning) Window');
+                    subplot(2, 3, 5); plot(n, hammingWindow); title('Hamming Window');
+                    
+                    % FIR Filters
+                    Fs = 400;
+                    N_filter = 50;
+                    fc_lowpass = 100;
+                    fc_highpass = 100;
+                    fc_bandpass = [50, 150];
+                    fc_bandstop = [50, 150];
+                    
+                    Wn_lowpass = fc_lowpass / (Fs / 2);
+                    Wn_highpass = fc_highpass / (Fs / 2);
+                    Wn_bandpass = fc_bandpass / (Fs / 2);
+                    Wn_bandstop = fc_bandstop / (Fs / 2);
+                    
+                    lowpass_hamming = fir1(N_filter, Wn_lowpass, 'low', hamming(N_filter + 1));
+                    highpass_hamming = fir1(N_filter, Wn_highpass, 'high', hamming(N_filter + 1));
+                    bandpass_hamming = fir1(N_filter, Wn_bandpass, 'bandpass', hamming(N_filter + 1));
+                    bandstop_hamming = fir1(N_filter, Wn_bandstop, 'stop', hamming(N_filter + 1));
+                    
+                    % Plot FIR Filters Frequency Response
+                    figure('Name', 'FIR Filters Frequency Response');
+                    subplot(2, 2, 1); freqz(lowpass_hamming); title('Lowpass Filter Frequency Response');
+                    subplot(2, 2, 2); freqz(highpass_hamming); title('Highpass Filter Frequency Response');
+                    subplot(2, 2, 3); freqz(bandpass_hamming); title('Bandpass Filter Frequency Response');
+                    subplot(2, 2, 4); freqz(bandstop_hamming); title('Bandstop Filter Frequency Response');
+                    
+                    % Ideal filter function
+                    function [h, n, H, f] = idealflr(N, fc, fs)
+                        fs = 4 * fc;
+                        Fc = fc / fs;
+                        M = (N - 1) / 2;
+                        n = -M:M;
+                        h = (2 * Fc) * sinc(2 * Fc * n);
+                        [H, f] = compute_dtft(h, fs);
+                    end
+                    
+                    % Compute DTFT function
+                    function [X, f] = compute_dtft(x, fs)
+                        Nx = length(x);
+                        Nw = 500;
+                        w = linspace(-pi, pi, Nw);
+                        X = zeros(1, Nw);
+                        for k = 1:Nw
+                            X(k) = sum(x .* exp(-1j * w(k) * (0:Nx-1)));
+                        end
+                        f = w * (fs / (2 * pi));
+                    end
+                    
+                    </code></pre>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="footer">
+        <p>&copy; 2024 MATLAB Organization</p>
+    </div>
+
+</body>
+
+</html>
